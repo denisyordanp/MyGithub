@@ -1,4 +1,4 @@
-package com.denisyordanp.mygithub
+package com.denisyordanp.mygithub.view.detail
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.denisyordanp.mygithub.R
 import com.denisyordanp.mygithub.databinding.ActivityDetailUserBinding
+import com.denisyordanp.mygithub.models.User
 
 class DetailUserActivity : AppCompatActivity() {
 

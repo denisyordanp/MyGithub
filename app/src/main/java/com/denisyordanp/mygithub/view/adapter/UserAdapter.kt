@@ -1,10 +1,11 @@
-package com.denisyordanp.mygithub
+package com.denisyordanp.mygithub.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.denisyordanp.mygithub.databinding.UsersViewBinding
+import com.denisyordanp.mygithub.models.User
 
 class UserAdapter(private val users: List<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {

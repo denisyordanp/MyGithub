@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/large_margin"
     android:paddingVertical="@dimen/large_margin"
-    tools:context=".DetailUserActivity">
+    tools:context=".view.detail.DetailUserActivity">
 
     <ImageView
         android:id="@+id/user_imageView"

@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyGithub.Splash">
         <activity
-            android:name=".DetailUserActivity"
+            android:name=".view.detail.DetailUserActivity"
             android:exported="true" />
         <activity
-            android:name=".ListUserActivity"
+            android:name=".view.search.ListUserActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

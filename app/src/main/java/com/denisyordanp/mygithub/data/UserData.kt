@@ -1,6 +1,8 @@
-package com.denisyordanp.mygithub
+package com.denisyordanp.mygithub.data
 
 import android.content.res.Resources
+import com.denisyordanp.mygithub.R
+import com.denisyordanp.mygithub.models.User
 
 object UserData {
 

@@ -1,4 +1,4 @@
-package com.denisyordanp.mygithub
+package com.denisyordanp.mygithub.models
 
 import android.os.Parcelable
 import androidx.annotation.DrawableRes
