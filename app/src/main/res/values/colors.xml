@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#97D5FA</color>
+    <color name="primary_variant">#7DA3E3</color>
+    <color name="on_primary">#FAFAFA</color>
+
+    <color name="secondary">#7DD8E3</color>
+    <color name="secondary_variant">#8BFDE9</color>
+    <color name="on_secondary">#202020</color>
+</resources>

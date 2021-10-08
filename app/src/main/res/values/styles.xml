@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="UserImageView">
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="UserImageView.Medium">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+    </style>
+
+    <style name="UserImageView.Large">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">200dp</item>
+    </style>
+
+    <style name="DefaultText">
+        <item name="android:textSize">@dimen/default_text_size</item>
+    </style>
+
+    <style name="DefaultText.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">@dimen/medium_margin</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+    </style>
+
+    <style name="DefaultText.SubTitle">
+        <item name="android:textSize">@dimen/subtitle_text_size</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:layout_marginTop">@dimen/small_margin</item>
+    </style>
+</resources>
