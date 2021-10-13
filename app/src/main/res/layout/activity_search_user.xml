@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/large_margin"
-    tools:context=".view.search.ListUserActivity">
+    tools:context=".view.search.SearchUserActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_recyclerView"

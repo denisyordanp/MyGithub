@@ -4,26 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.denisyordanp.mygithub.R
-import com.denisyordanp.mygithub.view.adapter.UserAdapter
 import com.denisyordanp.mygithub.data.UserData
-import com.denisyordanp.mygithub.databinding.ActivityListUserBinding
+import com.denisyordanp.mygithub.databinding.ActivitySearchUserBinding
 import com.denisyordanp.mygithub.models.User
+import com.denisyordanp.mygithub.view.adapter.UserAdapter
 import com.denisyordanp.mygithub.view.detail.DetailUserActivity
 
-class ListUserActivity : AppCompatActivity() {
+class SearchUserActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityListUserBinding
+    private lateinit var binding: ActivitySearchUserBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityListUserBinding.inflate(layoutInflater)
+        binding = ActivitySearchUserBinding.inflate(layoutInflater)
         setTheme(R.style.Theme_MyGithub_Main)
         setContentView(binding.root)
 
         setupRecyclerView()
         showUsers()
     }
-
 
 
     private fun setupRecyclerView() {

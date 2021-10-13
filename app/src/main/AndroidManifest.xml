@@ -13,7 +13,7 @@
             android:name=".view.detail.DetailUserActivity"
             android:exported="true" />
         <activity
-            android:name=".view.search.ListUserActivity"
+            android:name=".view.search.SearchUserActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
