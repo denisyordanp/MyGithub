@@ -24,7 +24,7 @@ class FollowAdapter(private val follows: List<ResponseFollowUsers>) :
 
         fun bind(follows: ResponseFollowUsers) {
             binding.apply {
-                usernameTextView.text = follows.login
+                usernameTextView.text = follows.username
                 Glide.with(root.context)
                     .load(follows.avatarUrl)
                     .into(userImageView)

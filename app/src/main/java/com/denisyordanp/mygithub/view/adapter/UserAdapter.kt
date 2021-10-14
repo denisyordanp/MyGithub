@@ -26,11 +26,11 @@ class UserAdapter(private val users: List<ResponseSearchUser>) :
 
         fun bind(users: ResponseSearchUser, onClickOnUser: ((String) -> Unit)?) {
             binding.apply {
-                usernameTextView.text = users.login
+                usernameTextView.text = users.username
                 Glide.with(root.context)
                     .load(users.avatarUrl)
                     .into(userImageView)
-                root.setOnClickListener { onClickOnUser?.invoke(users.login) }
+                root.setOnClickListener { onClickOnUser?.invoke(users.username) }
             }
         }
 

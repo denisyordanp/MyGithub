@@ -118,7 +118,7 @@ class DetailUserFragment : Fragment() {
     private fun setView(responseUser: ResponseDetailUser) {
         binding?.apply {
             nameTextView.text = responseUser.name
-            usernameTextView.text = responseUser.login
+            usernameTextView.text = responseUser.username
             locationTextView.text = responseUser.location
             companyTextView.text = responseUser.company
             Glide.with(root.context)
@@ -141,7 +141,7 @@ class DetailUserFragment : Fragment() {
         responseUser?.let {
             val intent = Intent(Intent.ACTION_SEND)
             val shareBody =
-                "${responseUser.name}, ${responseUser.login}, ${responseUser.company}, ${responseUser.location}"
+                "${responseUser.name}, ${responseUser.username}, ${responseUser.company}, ${responseUser.location}"
             intent.type = "text/plain"
             intent.putExtra(
                 Intent.EXTRA_SUBJECT,
