@@ -3,9 +3,9 @@ package com.denisyordanp.mygithub.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.denisyordanp.mygithub.databinding.UsersViewBinding
 import com.denisyordanp.mygithub.models.remote.ResponseSearchUser
+import com.denisyordanp.mygithub.utils.load
 
 class UserAdapter(private val users: List<ResponseSearchUser>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -27,9 +27,7 @@ class UserAdapter(private val users: List<ResponseSearchUser>) :
         fun bind(users: ResponseSearchUser, onClickOnUser: ((String) -> Unit)?) {
             binding.apply {
                 usernameTextView.text = users.username
-                Glide.with(root.context)
-                    .load(users.avatarUrl)
-                    .into(userImageView)
+                userImageView.load(users.avatarUrl)
                 root.setOnClickListener { onClickOnUser?.invoke(users.username) }
             }
         }

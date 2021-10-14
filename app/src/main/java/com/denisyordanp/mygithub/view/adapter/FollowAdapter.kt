@@ -3,9 +3,9 @@ package com.denisyordanp.mygithub.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.denisyordanp.mygithub.databinding.UsersViewBinding
 import com.denisyordanp.mygithub.models.remote.ResponseFollowUsers
+import com.denisyordanp.mygithub.utils.load
 
 class FollowAdapter(private val follows: List<ResponseFollowUsers>) :
     RecyclerView.Adapter<FollowAdapter.FollowViewHolder>() {
@@ -25,9 +25,7 @@ class FollowAdapter(private val follows: List<ResponseFollowUsers>) :
         fun bind(follows: ResponseFollowUsers) {
             binding.apply {
                 usernameTextView.text = follows.username
-                Glide.with(root.context)
-                    .load(follows.avatarUrl)
-                    .into(userImageView)
+                userImageView.load(follows.avatarUrl)
             }
         }
 

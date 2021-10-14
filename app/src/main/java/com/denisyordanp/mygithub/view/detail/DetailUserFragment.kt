@@ -3,11 +3,13 @@ package com.denisyordanp.mygithub.view.detail
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.denisyordanp.mygithub.R
@@ -121,10 +123,7 @@ class DetailUserFragment : Fragment() {
             usernameTextView.text = responseUser.username
             locationTextView.text = responseUser.location
             companyTextView.text = responseUser.company
-            Glide.with(root.context)
-                .load(responseUser.avatarUrl)
-                .circleCrop()
-                .into(userImageView)
+            userImageView.load(responseUser.avatarUrl)
 
             val followers = resources.getString(R.string.followers, responseUser.followers)
             followersTextView.text = followers
@@ -135,6 +134,20 @@ class DetailUserFragment : Fragment() {
             val repositories = resources.getString(R.string.repository, responseUser.publicRepos)
             repositoryTextView.text = repositories
         }
+    }
+
+    private fun ImageView.load(url: String) {
+        val placeHolder = CircularProgressDrawable(this.context).apply {
+            strokeWidth = 5f
+            centerRadius = 30f
+            start()
+        }
+        Glide.with(this.context)
+            .load(url)
+            .placeholder(placeHolder)
+            .error(R.drawable.ic_broken_image)
+            .circleCrop()
+            .into(this)
     }
 
     private fun shareUser(responseUser: ResponseDetailUser?) {

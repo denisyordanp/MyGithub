@@ -14,7 +14,7 @@ import com.denisyordanp.mygithub.view.detail.DetailViewModel
 
 class FollowingFragment : Fragment() {
 
-    private lateinit var binding: FragmentFollowingBinding
+    private var binding: FragmentFollowingBinding? = null
     private lateinit var adapter: FollowAdapter
 
     private val followingsViewModel by activityViewModels<DetailViewModel>()
@@ -22,9 +22,9 @@ class FollowingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentFollowingBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class FollowingFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.root.requestLayout()
+        binding?.root?.requestLayout()
     }
 
     private fun setupListener() {
@@ -48,13 +48,18 @@ class FollowingFragment : Fragment() {
 
     private fun showFollowings(follows: List<ResponseFollowUsers>) {
         adapter = FollowAdapter(follows)
-        binding.followingRecyclerView.adapter = adapter
+        binding?.followingRecyclerView?.adapter = adapter
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.apply {
+        binding?.apply {
             followingProgressBar.isVisible = isLoading
             followingRecyclerView.isVisible = !isLoading
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 }

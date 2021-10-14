@@ -1,5 +1,6 @@
 package com.denisyordanp.mygithub.data.remote
 
+import com.denisyordanp.mygithub.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,7 +11,6 @@ class ApiConfig {
     companion object {
 
         private const val BASE_URL = "https://api.github.com/"
-        private const val API_KEY = "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"
 
         fun getApiService(): GithubService {
             return Retrofit.Builder()
@@ -25,15 +25,17 @@ class ApiConfig {
 
         private val header = Interceptor { chain ->
             val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", API_KEY)
+                .addHeader("Authorization", BuildConfig.API_KEY)
                 .build()
 
             return@Interceptor chain.proceed(newRequest)
         }
 
-        private val client = OkHttpClient.Builder()
-            .addInterceptor(header)
-            .addInterceptor(loggingInterceptor)
-            .build()
+        private val client = OkHttpClient.Builder().run {
+            addInterceptor(header)
+            if (BuildConfig.DEBUG) addInterceptor(loggingInterceptor)
+            build()
+        }
+
     }
 }

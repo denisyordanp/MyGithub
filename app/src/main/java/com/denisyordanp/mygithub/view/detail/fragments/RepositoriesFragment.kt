@@ -14,7 +14,7 @@ import com.denisyordanp.mygithub.view.detail.DetailViewModel
 
 class RepositoriesFragment : Fragment() {
 
-    private lateinit var binding: FragmentRepositoriesBinding
+    private var binding: FragmentRepositoriesBinding? = null
     private lateinit var adapter: RepositoryAdapter
 
     private val repositoriesViewModel by activityViewModels<DetailViewModel>()
@@ -22,9 +22,9 @@ class RepositoriesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentRepositoriesBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class RepositoriesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.root.requestLayout()
+        binding?.root?.requestLayout()
     }
 
     private fun setupListener() {
@@ -48,13 +48,18 @@ class RepositoriesFragment : Fragment() {
 
     private fun showRepositories(repositories: List<ResponseRepository>) {
         adapter = RepositoryAdapter(repositories)
-        binding.repositoriesRecyclerView.adapter = adapter
+        binding?.repositoriesRecyclerView?.adapter = adapter
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.apply {
+        binding?.apply {
             repositoriesProgressBar.isVisible = isLoading
             repositoriesRecyclerView.isVisible = !isLoading
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 }
