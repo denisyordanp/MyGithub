@@ -12,26 +12,28 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/user_imageView"
-            style="@style/UserImageView.Medium"
-            android:contentDescription="@string/user_image"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/medium_margin">
 
         <TextView
-            android:id="@+id/username_textView"
+            android:id="@+id/repo_name_textView"
             style="@style/DefaultText.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/user_imageView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Username" />
+            tools:text="Repo Name" />
+
+        <TextView
+            android:id="@+id/description_textView"
+            style="@style/DefaultText.SubTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repo_name_textView"
+            tools:text="Description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
