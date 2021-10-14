@@ -22,7 +22,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailUserFragment : Fragment() {
 
-    private lateinit var binding: FragmentDetailUserBinding
+    private var binding: FragmentDetailUserBinding? = null
     private val args by navArgs<DetailUserFragmentArgs>()
 
     private val detailViewModel by activityViewModels<DetailViewModel>()
@@ -38,8 +38,11 @@ class DetailUserFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDetailUserBinding.inflate(inflater, container, false)
-        return binding.root
+        if (binding == null) {
+            val binding = FragmentDetailUserBinding.inflate(inflater, container, false)
+            this.binding = binding
+        }
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,10 +71,8 @@ class DetailUserFragment : Fragment() {
     }
 
     private fun setupPagerAdapter() {
-        binding.run {
+        binding?.apply {
             userViewPager.adapter = MainPagerAdapter(this@DetailUserFragment)
-            userViewPager.isSaveEnabled = false
-
             TabLayoutMediator(
                 userTabLayout,
                 userViewPager,
@@ -104,7 +105,7 @@ class DetailUserFragment : Fragment() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.apply {
+        binding?.apply {
             detailProgressBar.isVisible = isLoading
         }
     }
@@ -115,7 +116,7 @@ class DetailUserFragment : Fragment() {
     }
 
     private fun setView(responseUser: ResponseDetailUser) {
-        binding.apply {
+        binding?.apply {
             nameTextView.text = responseUser.name
             usernameTextView.text = responseUser.login
             locationTextView.text = responseUser.location
