@@ -13,4 +13,6 @@
     <string name="server_error">Server Error</string>
     <string name="user_not_found">User not found</string>
     <string name="request_error">Request error</string>
+    <string name="no_in_company">No in company</string>
+    <string name="no_location">No location</string>
 </resources>

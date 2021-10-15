@@ -121,8 +121,8 @@ class DetailUserFragment : Fragment() {
         binding?.apply {
             nameTextView.text = responseUser.name
             usernameTextView.text = responseUser.username
-            locationTextView.text = responseUser.location
-            companyTextView.text = responseUser.company
+            locationTextView.text = responseUser.location.locationText()
+            companyTextView.text = responseUser.company.companyText()
             userImageView.load(responseUser.avatarUrl)
 
             val followers = resources.getString(R.string.followers, responseUser.followers)
@@ -134,6 +134,14 @@ class DetailUserFragment : Fragment() {
             val repositories = resources.getString(R.string.repository, responseUser.publicRepos)
             repositoryTextView.text = repositories
         }
+    }
+
+    private fun String?.companyText(): String {
+        return if (this.isNullOrEmpty()) resources.getString(R.string.no_in_company) else this
+    }
+
+    private fun String?.locationText(): String {
+        return if (this.isNullOrEmpty()) resources.getString(R.string.no_location) else this
     }
 
     private fun ImageView.load(url: String) {
