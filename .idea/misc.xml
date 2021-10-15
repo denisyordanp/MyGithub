@@ -10,12 +10,12 @@
         <entry key="app/src/main/res/layout/activity_search_user.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/layout/follow_view.xml" value="0.35572916666666665" />
         <entry key="app/src/main/res/layout/fragment_detail_user.xml" value="0.45" />
-        <entry key="app/src/main/res/layout/fragment_followers.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_followers.xml" value="0.15" />
         <entry key="app/src/main/res/layout/fragment_following.xml" value="0.1661600810536981" />
         <entry key="app/src/main/res/layout/fragment_repositories.xml" value="0.17299898682877407" />
         <entry key="app/src/main/res/layout/fragment_search_user.xml" value="0.17299898682877407" />
-        <entry key="app/src/main/res/layout/repository_view.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/users_view.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/repository_view.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/users_view.xml" value="0.33" />
         <entry key="app/src/main/res/menu/detail_menu.xml" value="0.5" />
         <entry key="app/src/main/res/menu/search_menu.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.371875" />
