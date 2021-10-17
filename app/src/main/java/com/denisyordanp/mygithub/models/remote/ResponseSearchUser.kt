@@ -7,5 +7,5 @@ data class ResponseSearchUser(
     @SerializedName("avatar_url")
     val avatarUrl: String,
     @SerializedName("login")
-    val username: String,
+    val username: String
 )

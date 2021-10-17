@@ -7,5 +7,5 @@ data class ResponseRepository(
     @SerializedName("description")
     val description: String,
     @SerializedName("name")
-    val name: String,
+    val name: String
 )

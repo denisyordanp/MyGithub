@@ -17,4 +17,8 @@
     <string name="no_location">No location</string>
     <string name="favorites">Favorites</string>
     <string name="change_theme">Change theme</string>
+    <string name="no_favorite_user_yet">No favorite user yet</string>
+    <string name="delete_button">Delete button</string>
+    <string name="favorite_button">Favorite button</string>
+    <string name="favorites_user">Favorites User</string>
 </resources>

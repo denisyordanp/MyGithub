@@ -9,18 +9,30 @@
         android:id="@+id/searchUserFragment"
         android:name="com.denisyordanp.mygithub.view.search.SearchUserFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_search_user" >
+        tools:layout="@layout/fragment_search_user">
         <action
             android:id="@+id/action_searchUserFragment_to_detailUserFragment"
             app:destination="@id/detailUserFragment" />
+        <action
+            android:id="@+id/action_searchUserFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailUserFragment"
         android:name="com.denisyordanp.mygithub.view.detail.DetailUserFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_detail_user" >
+        tools:layout="@layout/fragment_detail_user">
         <argument
             android:name="extra_username"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.denisyordanp.mygithub.view.favorites.FavoritesFragment"
+        android:label="@string/favorites_user"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favoritesFragment_to_detailUserFragment"
+            app:destination="@id/detailUserFragment" />
     </fragment>
 </navigation>

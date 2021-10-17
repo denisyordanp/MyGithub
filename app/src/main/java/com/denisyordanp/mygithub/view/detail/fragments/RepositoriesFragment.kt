@@ -39,7 +39,7 @@ class RepositoriesFragment : Fragment() {
 
     private fun setupListener() {
         repositoriesViewModel.repositories.observe(viewLifecycleOwner) {
-            showRepositories(it)
+            it?.let { showRepositories(it) }
         }
         repositoriesViewModel.isRepositoriesLoading.observe(viewLifecycleOwner) {
             showLoading(it)

@@ -1,32 +1,36 @@
 package com.denisyordanp.mygithub.view.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
 import com.denisyordanp.mygithub.R
 import com.denisyordanp.mygithub.data.remote.ApiConfig
+import com.denisyordanp.mygithub.data.repository.FavoriteRepository
+import com.denisyordanp.mygithub.models.database.FavoriteUserEntity
 import com.denisyordanp.mygithub.models.remote.ResponseDetailUser
 import com.denisyordanp.mygithub.models.remote.ResponseFollowUsers
 import com.denisyordanp.mygithub.models.remote.ResponseRepository
 import com.denisyordanp.mygithub.utils.Event
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel(application: Application) : ViewModel() {
+
+    private val repository: FavoriteRepository = FavoriteRepository(application)
 
     // DATA
-    private val _detailUser = MutableLiveData<ResponseDetailUser>()
-    val detailUser: LiveData<ResponseDetailUser> = _detailUser
+    private val _detailUser = MutableLiveData<ResponseDetailUser?>()
+    val detailUser: LiveData<ResponseDetailUser?> = _detailUser
 
-    private val _followers = MutableLiveData<List<ResponseFollowUsers>>()
-    val followers: LiveData<List<ResponseFollowUsers>> = _followers
+    private val _followers = MutableLiveData<List<ResponseFollowUsers>?>()
+    val followers: LiveData<List<ResponseFollowUsers>?> = _followers
 
-    private val _followings = MutableLiveData<List<ResponseFollowUsers>>()
-    val followings: LiveData<List<ResponseFollowUsers>> = _followings
+    private val _followings = MutableLiveData<List<ResponseFollowUsers>?>()
+    val followings: LiveData<List<ResponseFollowUsers>?> = _followings
 
-    private val _repositories = MutableLiveData<List<ResponseRepository>>()
-    val repositories: LiveData<List<ResponseRepository>> = _repositories
+    private val _repositories = MutableLiveData<List<ResponseRepository>?>()
+    val repositories: LiveData<List<ResponseRepository>?> = _repositories
 
     // LOADING
     private val _isDetailUserLoading = MutableLiveData<Boolean>()
@@ -44,6 +48,11 @@ class DetailViewModel : ViewModel() {
     // SNACK BAR
     private val _showSnackEvent = MutableLiveData<Event<Int>>()
     val showSnackEvent: LiveData<Event<Int>> = _showSnackEvent
+
+    fun isFavorite(username: String): LiveData<Boolean> =
+        Transformations.map(repository.getFavoriteByUsername(username)) {
+            it != null
+        }
 
     fun requestUserData(username: String) {
         username.apply {
@@ -149,6 +158,17 @@ class DetailViewModel : ViewModel() {
             }
         })
     }
+
+    fun setFavoriteUser(user: ResponseDetailUser, isFavorite: Boolean) = viewModelScope.launch {
+        if (isFavorite) {
+            repository.deleteFavorite(user.toEntity())
+        } else {
+            repository.insertFavorite(user.toEntity())
+        }
+    }
+
+    private fun ResponseDetailUser.toEntity(): FavoriteUserEntity =
+        FavoriteUserEntity(this.username, this.avatarUrl)
 
     override fun onCleared() {
         super.onCleared()

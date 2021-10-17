@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -62,10 +63,35 @@ class SearchUserFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
         menu.let {
             inflater.inflate(R.menu.search_menu, it)
             setupSearchView(it)
+
+            val isDarkModeActive =
+                AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+            setThemeIcon(menu, isDarkModeActive)
+        }
+    }
+
+    private fun setThemeIcon(menu: Menu?, isDarkModeActive: Boolean) {
+        menu?.findItem(R.id.theme)?.apply {
+            if (isDarkModeActive) {
+                setIcon(R.drawable.ic_light_mode)
+            } else {
+                setIcon(R.drawable.ic_dark_mode)
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.favorite -> {
+                toFavorites()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 
@@ -107,13 +133,18 @@ class SearchUserFragment : Fragment() {
     private fun showUsers(users: List<ResponseSearchUser>) {
         showLoading(false)
         val adapter = UserAdapter(users)
-        adapter.onClickOnUser = { toDetail(it) }
+        adapter.onClickUser = { toDetail(it) }
         binding?.usersRecyclerView?.adapter = adapter
     }
 
     private fun toDetail(username: String) {
         val action =
             SearchUserFragmentDirections.actionSearchUserFragmentToDetailUserFragment(username)
+        findNavController().navigate(action)
+    }
+
+    private fun toFavorites() {
+        val action = SearchUserFragmentDirections.actionSearchUserFragmentToFavoritesFragment()
         findNavController().navigate(action)
     }
 }

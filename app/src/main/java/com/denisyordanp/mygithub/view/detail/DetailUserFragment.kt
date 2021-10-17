@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -16,6 +16,7 @@ import com.denisyordanp.mygithub.R
 import com.denisyordanp.mygithub.databinding.FragmentDetailUserBinding
 import com.denisyordanp.mygithub.models.remote.ResponseDetailUser
 import com.denisyordanp.mygithub.utils.EventObserver
+import com.denisyordanp.mygithub.utils.ApplicationViewModelFactory
 import com.denisyordanp.mygithub.view.detail.fragments.FollowersFragment
 import com.denisyordanp.mygithub.view.detail.fragments.FollowingFragment
 import com.denisyordanp.mygithub.view.detail.fragments.RepositoriesFragment
@@ -27,7 +28,8 @@ class DetailUserFragment : Fragment() {
     private var binding: FragmentDetailUserBinding? = null
     private val args by navArgs<DetailUserFragmentArgs>()
 
-    private val detailViewModel by activityViewModels<DetailViewModel>()
+    private var detailViewModel: DetailViewModel? = null
+    private var isFavorite: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,7 @@ class DetailUserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupViewModel()
         setupPagerAdapter()
         setupListener()
         requestUserData()
@@ -63,12 +65,23 @@ class DetailUserFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.share -> {
-                detailViewModel.detailUser.value?.let { shareUser(it) }
+                detailViewModel?.detailUser?.value?.let { shareUser(it) }
                 true
             }
             else -> {
                 super.onOptionsItemSelected(item)
             }
+        }
+    }
+
+    private fun setupViewModel() {
+        activity?.application?.let {
+            val factory = ApplicationViewModelFactory.getInstance(it)
+            detailViewModel =
+                ViewModelProvider(
+                    requireActivity(),
+                    factory
+                ).get(DetailViewModel::class.java)
         }
     }
 
@@ -91,19 +104,47 @@ class DetailUserFragment : Fragment() {
     }
 
     private fun setupListener() {
-        detailViewModel.detailUser.observe(viewLifecycleOwner) {
-            setView(it)
+        detailViewModel?.detailUser?.observe(viewLifecycleOwner) {
+            it?.let { setView(it) }
         }
-        detailViewModel.isDetailUserLoading.observe(viewLifecycleOwner) {
+        detailViewModel?.isDetailUserLoading?.observe(viewLifecycleOwner) {
             showLoading(it)
         }
-        detailViewModel.showSnackEvent.observe(viewLifecycleOwner, EventObserver {
+        detailViewModel?.showSnackEvent?.observe(viewLifecycleOwner, EventObserver {
             showError(it)
         })
+        binding?.detailFavoriteFab?.setOnClickListener {
+            applyFavoriteUser()
+        }
+    }
+
+    private fun applyFavoriteUser() {
+        detailViewModel?.detailUser?.value?.let {
+            detailViewModel?.setFavoriteUser(it, isFavorite)
+        }
     }
 
     private fun requestUserData() {
-        detailViewModel.requestUserData(args.extraUsername)
+        args.extraUsername.let {
+            detailViewModel?.requestUserData(it)
+            setupFavoriteListener(it)
+        }
+    }
+
+    private fun setupFavoriteListener(username: String) {
+        detailViewModel?.isFavorite(username)?.observe(viewLifecycleOwner) {
+            applyFavoriteUser(it)
+        }
+    }
+
+    private fun applyFavoriteUser(isFavorite: Boolean) {
+        this.isFavorite = isFavorite
+        binding?.detailFavoriteFab?.apply {
+            if (isFavorite)
+                setImageResource(R.drawable.ic_favorite)
+            else
+                setImageResource(R.drawable.ic_un_favorite)
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {

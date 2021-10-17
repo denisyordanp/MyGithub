@@ -39,7 +39,7 @@ class FollowingFragment : Fragment() {
 
     private fun setupListener() {
         followingsViewModel.followings.observe(viewLifecycleOwner) {
-            showFollowings(it)
+            it?.let { showFollowings(it) }
         }
         followingsViewModel.isFollowingsLoading.observe(viewLifecycleOwner) {
             showLoading(it)

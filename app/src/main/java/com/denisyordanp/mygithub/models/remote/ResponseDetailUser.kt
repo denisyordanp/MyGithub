@@ -19,5 +19,5 @@ data class ResponseDetailUser(
     @SerializedName("name")
     val name: String,
     @SerializedName("public_repos")
-    val publicRepos: Int,
+    val publicRepos: Int
 )

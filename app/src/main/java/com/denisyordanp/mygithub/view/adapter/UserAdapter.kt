@@ -10,13 +10,13 @@ import com.denisyordanp.mygithub.utils.load
 class UserAdapter(private val users: List<ResponseSearchUser>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
-    var onClickOnUser: ((String) -> Unit)? = null
+    var onClickUser: ((String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder =
         UserViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.bind(users[position], onClickOnUser)
+        holder.bind(users[position], onClickUser)
     }
 
     override fun getItemCount(): Int = users.size
@@ -24,11 +24,11 @@ class UserAdapter(private val users: List<ResponseSearchUser>) :
     class UserViewHolder(private val binding: UsersViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(users: ResponseSearchUser, onClickOnUser: ((String) -> Unit)?) {
+        fun bind(users: ResponseSearchUser, onClickUser: ((String) -> Unit)?) {
             binding.apply {
                 usernameTextView.text = users.username
                 userImageView.load(users.avatarUrl)
-                root.setOnClickListener { onClickOnUser?.invoke(users.username) }
+                root.setOnClickListener { onClickUser?.invoke(users.username) }
             }
         }
 
