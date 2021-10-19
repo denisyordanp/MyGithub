@@ -15,8 +15,8 @@ import com.bumptech.glide.Glide
 import com.denisyordanp.mygithub.R
 import com.denisyordanp.mygithub.databinding.FragmentDetailUserBinding
 import com.denisyordanp.mygithub.models.remote.ResponseDetailUser
+import com.denisyordanp.mygithub.utils.DetailViewModelFactory
 import com.denisyordanp.mygithub.utils.EventObserver
-import com.denisyordanp.mygithub.utils.ApplicationViewModelFactory
 import com.denisyordanp.mygithub.view.detail.fragments.FollowersFragment
 import com.denisyordanp.mygithub.view.detail.fragments.FollowingFragment
 import com.denisyordanp.mygithub.view.detail.fragments.RepositoriesFragment
@@ -76,7 +76,7 @@ class DetailUserFragment : Fragment() {
 
     private fun setupViewModel() {
         activity?.application?.let {
-            val factory = ApplicationViewModelFactory.getInstance(it)
+            val factory = DetailViewModelFactory.getInstance(it)
             detailViewModel =
                 ViewModelProvider(
                     requireActivity(),

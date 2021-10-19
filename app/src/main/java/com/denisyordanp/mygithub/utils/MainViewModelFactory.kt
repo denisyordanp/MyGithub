@@ -4,23 +4,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.denisyordanp.mygithub.view.main.MainViewModel
 
-class PreferenceViewModelFactory private constructor(private val preferences: SettingPreferences) :
+class MainViewModelFactory private constructor(private val preferences: SettingPreferences) :
     ViewModelProvider.NewInstanceFactory() {
     companion object {
         @Volatile
-        private var INSTANCE: PreferenceViewModelFactory? = null
+        private var INSTANCE: MainViewModelFactory? = null
 
         @JvmStatic
-        fun getInstance(preferences: SettingPreferences): PreferenceViewModelFactory {
+        fun getInstance(preferences: SettingPreferences): MainViewModelFactory {
             if (INSTANCE == null) {
-                synchronized(PreferenceViewModelFactory::class.java) {
-                    INSTANCE = PreferenceViewModelFactory(preferences)
+                synchronized(MainViewModelFactory::class.java) {
+                    INSTANCE = MainViewModelFactory(preferences)
                 }
             }
-            return INSTANCE as PreferenceViewModelFactory
+            return INSTANCE as MainViewModelFactory
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(preferences) as T

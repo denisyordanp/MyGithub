@@ -17,7 +17,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.denisyordanp.mygithub.R
 import com.denisyordanp.mygithub.databinding.ActivityMainBinding
-import com.denisyordanp.mygithub.utils.PreferenceViewModelFactory
+import com.denisyordanp.mygithub.utils.MainViewModelFactory
 import com.denisyordanp.mygithub.utils.SettingPreferences
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         val pref = SettingPreferences.getInstance(dataStore)
-        val factory = PreferenceViewModelFactory.getInstance(pref)
+        val factory = MainViewModelFactory.getInstance(pref)
         mainViewModel =
             ViewModelProvider(this, factory).get(MainViewModel::class.java)
     }

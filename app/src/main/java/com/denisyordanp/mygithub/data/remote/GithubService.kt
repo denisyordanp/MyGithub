@@ -17,23 +17,23 @@ interface GithubService {
     ): Call<ResponseSearchUsers>
 
     @GET("https://api.github.com/users/{username}")
-    fun getDetailUser(
+    suspend fun getDetailUser(
         @Path("username") username: String
-    ): Call<ResponseDetailUser>
+    ): ResponseDetailUser
 
     @GET("https://api.github.com/users/{username}/followers")
-    fun getFollowers(
+    suspend fun getFollowers(
         @Path("username") username: String
-    ): Call<List<ResponseFollowUsers>>
+    ): List<ResponseFollowUsers>
 
     @GET("https://api.github.com/users/{username}/following")
-    fun getFollowings(
+    suspend fun getFollowings(
         @Path("username") username: String
-    ): Call<List<ResponseFollowUsers>>
+    ): List<ResponseFollowUsers>
 
     @GET("https://api.github.com/users/{username}/repos")
-    fun getRepositories(
+    suspend fun getRepositories(
         @Path("username") username: String
-    ): Call<List<ResponseRepository>>
+    ): List<ResponseRepository>
 
 }

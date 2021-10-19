@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.denisyordanp.mygithub.databinding.FragmentFavoritesBinding
-import com.denisyordanp.mygithub.utils.ApplicationViewModelFactory
+import com.denisyordanp.mygithub.utils.FavoriteViewModelFactory
 import com.denisyordanp.mygithub.view.adapter.FavoritesAdapter
 
 class FavoritesFragment : Fragment() {
@@ -38,7 +38,7 @@ class FavoritesFragment : Fragment() {
 
     private fun setupViewModel() {
         activity?.application?.let {
-            val factory = ApplicationViewModelFactory.getInstance(it)
+            val factory = FavoriteViewModelFactory.getInstance(it)
             favoritesViewModel =
                 ViewModelProvider(this, factory).get(FavoritesViewModel::class.java)
         }
