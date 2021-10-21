@@ -1,18 +1,20 @@
 package com.denisyordanp.mygithub.view.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.denisyordanp.mygithub.R
 import com.denisyordanp.mygithub.data.remote.ApiConfig
 import com.denisyordanp.mygithub.models.remote.ResponseSearchUser
 import com.denisyordanp.mygithub.models.remote.ResponseSearchUsers
 import com.denisyordanp.mygithub.utils.Event
+import com.denisyordanp.mygithub.utils.SettingPreferences
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchViewModel : ViewModel() {
+class SearchViewModel(
+    private val preferences: SettingPreferences
+) : ViewModel() {
 
     private val _searchUsers = MutableLiveData<List<ResponseSearchUser>>(emptyList())
     val searchUsers: LiveData<List<ResponseSearchUser>> = _searchUsers
@@ -50,5 +52,14 @@ class SearchViewModel : ViewModel() {
                 t.printStackTrace()
             }
         })
+    }
+
+    val isDarkModeActive: LiveData<Boolean> = preferences.getThemeSetting().asLiveData()
+
+    fun changeThemeSetting() {
+        viewModelScope.launch {
+            val currentDarkModeActive = isDarkModeActive.value == true
+            preferences.saveThemeSetting(!currentDarkModeActive)
+        }
     }
 }

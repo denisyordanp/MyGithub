@@ -8,12 +8,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.denisyordanp.mygithub.R
 import com.denisyordanp.mygithub.databinding.FragmentSearchUserBinding
 import com.denisyordanp.mygithub.models.remote.ResponseSearchUser
 import com.denisyordanp.mygithub.utils.EventObserver
+import com.denisyordanp.mygithub.utils.SearchViewModelFactory
 import com.denisyordanp.mygithub.view.adapter.UserAdapter
 import com.google.android.material.snackbar.Snackbar
 
@@ -21,7 +22,7 @@ class SearchUserFragment : Fragment() {
 
     private var binding: FragmentSearchUserBinding? = null
 
-    private val searchViewModel by viewModels<SearchViewModel>()
+    private var searchViewModel: SearchViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,7 @@ class SearchUserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        setupViewModel()
         setupListener()
     }
 
@@ -50,35 +52,44 @@ class SearchUserFragment : Fragment() {
         binding?.usersRecyclerView?.setHasFixedSize(true)
     }
 
+    private fun setupViewModel() {
+        val factory = SearchViewModelFactory.getInstance(requireActivity())
+        searchViewModel =
+            ViewModelProvider(requireActivity(), factory).get(SearchViewModel::class.java)
+    }
+
     private fun setupListener() {
-        searchViewModel.isLoading.observe(viewLifecycleOwner) {
-            showLoading(it)
+        searchViewModel?.apply {
+            isLoading.observe(viewLifecycleOwner) {
+                showLoading(it)
+            }
+            searchUsers.observe(viewLifecycleOwner) {
+                showUsers(it)
+            }
+            showSnackEvent.observe(viewLifecycleOwner, EventObserver {
+                showError(it)
+            })
         }
-        searchViewModel.searchUsers.observe(viewLifecycleOwner) {
-            showUsers(it)
-        }
-        searchViewModel.showSnackEvent.observe(viewLifecycleOwner, EventObserver {
-            showError(it)
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.let {
             inflater.inflate(R.menu.search_menu, it)
+            setThemeIcon(it)
             setupSearchView(it)
-
-            val isDarkModeActive =
-                AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
-            setThemeIcon(menu, isDarkModeActive)
         }
     }
 
-    private fun setThemeIcon(menu: Menu?, isDarkModeActive: Boolean) {
-        menu?.findItem(R.id.theme)?.apply {
-            if (isDarkModeActive) {
-                setIcon(R.drawable.ic_light_mode)
-            } else {
-                setIcon(R.drawable.ic_dark_mode)
+    private fun setThemeIcon(menu: Menu) {
+        searchViewModel?.isDarkModeActive?.observe(viewLifecycleOwner) {
+            menu.findItem(R.id.theme)?.apply {
+                if (it) {
+                    setIcon(R.drawable.ic_light_mode)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    setIcon(R.drawable.ic_dark_mode)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
             }
         }
     }
@@ -89,10 +100,18 @@ class SearchUserFragment : Fragment() {
                 toFavorites()
                 true
             }
+            R.id.theme -> {
+                applyTheme()
+                true
+            }
             else -> {
                 super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    private fun applyTheme() {
+        searchViewModel?.changeThemeSetting()
     }
 
     private fun setupSearchView(menu: Menu) {
@@ -115,7 +134,7 @@ class SearchUserFragment : Fragment() {
     }
 
     private fun searchUser(username: String) {
-        searchViewModel.searchUser(username)
+        searchViewModel?.searchUser(username)
     }
 
     private fun showError(message: Int) {
